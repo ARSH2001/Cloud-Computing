@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: iutcloud
+  labels:
+    app: qto-cloud
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate 
+  selector:
+    matchLabels:
+      app: qto-cloud
+  template:
+    metadata:
+      labels:
+        app: qto-cloud
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.14.2
+          ports:
+            - containerPort: 80

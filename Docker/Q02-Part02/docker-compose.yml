@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  backend:
+    image: sepehrganji/awesome-backend
+    container_name: "awesome-backend"
+    ports:
+      - 6000:3000
+    volumes:
+      - /home/log:/app/log
+    networks:
+      - cloud_net
+    env_file:
+      - .back.env
+    command: /bin/bash -c "yarn install --frozen-lockfile && yarn build && yarn start"  
+    depends_on: 
+      - db
+    restart: on-failure
+  db:
+    image: postgres:14 
+    container_name: "database"
+    volumes: 
+      - db_volume:/data/pg
+    networks:
+      - cloud_net
+    environment:
+      - PGDATA:/data/pg
+    env_file:
+      - .db.env 
+    restart: on-failure 
+networks:
+  cloud_net:
+volumes:
+  db_volume:
+
+
+
+
+
+      
